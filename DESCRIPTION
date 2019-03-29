@@ -1,0 +1,36 @@
+Package: RNAmodR.ML
+Type: Package
+Title: RNAmodR: detecting patterns of post-transcriptional modifications using machine learning
+Version: 0.1.0
+Authors@R: c(person("Felix G.M.",
+                  "Ernst", 
+                  email = "felix.gm.ernst@outlook.com", 
+                  role = c("aut", "cre"),
+                  comment = c(ORCID = "0000-0001-5064-0928")),
+             person("Denis L.J.", 
+                    "Lafontaine", 
+                    email = "denis.lafontaine@ulb.ac.be", 
+                    role = c("ctb")))
+Description: title
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: false
+Depends:
+    R (>= 3.5),
+    RNAmodR
+Imports:
+    keras,
+    tensorflow
+Suggests:
+    BiocStyle,
+    knitr,
+    rmarkdown
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr
+Collate: 
+    'RNAmodR.ML.R'
+    'AllGenerics.R'
+    'ModifierMLModel-class.R'
+    'ModifierML-class.R'
+    'ModifierML-data.R'
+    'ModifierMLKeras-class.R'

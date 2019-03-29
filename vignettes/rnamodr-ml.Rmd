@@ -1,0 +1,19 @@
+---
+title: "RNAmodR: detecting patterns of post-transcriptional modifications using machine learning"
+author: "Felix G.M. Ernst and Denis L.J. Lafontaine"
+date: "`r Sys.Date()`"
+package: RNAmodR
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+vignette: >
+  %\VignetteIndexEntry{RNAmodR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+
+
