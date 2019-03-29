@@ -71,6 +71,9 @@ setMethod("setMLModel",
 setMethod("getMLModel",
           signature = c(x = "ModifierML"),
           function(x){
+            if(assertive::is_an_empty_string(x@mlModel)){
+              return(NULL)
+            }
             if(!is(x@mlModel,"ModifierMLModel")){
               mlModel <- .load_ModifierMLModel(x@mlModel)
             } else {
