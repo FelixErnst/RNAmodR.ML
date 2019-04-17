@@ -6,10 +6,10 @@ NULL
 #' @rdname ModifierML-class
 #' @export
 setGeneric(
-  name = "setMLModel",
-  signature = c("x", "model"),
-  def = function(x, model)
-    standardGeneric("setMLModel")
+  name = "setMLModel<-",
+  signature = c("x"),
+  def = function(x, value)
+    standardGeneric("setMLModel<-")
 )
 #' @rdname ModifierML-class
 #' @export
@@ -30,6 +30,14 @@ setGeneric(
 
 # data handling functions ------------------------------------------------------
 
+#' @rdname ModifierMLModel-class
+#' @export
+setGeneric(
+  name = "useModel",
+  signature = c("x","y"),
+  def = function(x, y)
+    standardGeneric("useModel")
+)
 #' @rdname ModifierML-class
 #' @export
 setGeneric(
@@ -39,12 +47,12 @@ setGeneric(
     standardGeneric("useMLModel")
 )
 
-#' @rdname assembleTrainingData
+#' @rdname trainingData
 #' @export
 setGeneric(
-  name = "assembleTrainingData",
+  name = "trainingData",
   signature = c("x", "coord"),
-  def = function(x, coord)
-    standardGeneric("assembleTrainingData")
+  def = function(x, coord, ...)
+    standardGeneric("trainingData")
 )
 

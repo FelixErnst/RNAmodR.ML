@@ -8,7 +8,7 @@ NULL
 #' @title ModifierMLModel virtual class
 #'
 #' @description
-#' Teh \code{ModifierMLModel} is a virtual class and is used for representing
+#' The \code{ModifierMLModel} is a virtual class and is used for representing
 #' different types of machine learning models used in the detection of
 #' post transcriptional modifiations in RNA sequencing data.
 #'
@@ -20,14 +20,23 @@ NULL
 #' @seealso \code{\link[=ModifierMLKeras-class]{ModifierMLKeras}}
 #'
 #' @slot model a machine learning object of any type
-#' @slot modelFile a file representation of the model
 NULL
 
 #' @rdname ModifierMLModel-class
 #' @export
 setClass("ModifierMLModel",
          contains = c("VIRTUAL"),
-         slots = c("model" = "ANY",
-                   "modelFile" = "character"))
+         slots = c(model = "ANY"))
 
+# function ---------------------------------------------------------------------
 
+#' @rdname ModifierMLModel-class
+#' @export
+setMethod(f = "useModel",
+          signature = signature(x = "ModifierMLModel", y = "ANY"),
+          definition =
+            function(x, y){
+              stop("This functions needs to be implemented by '",class(x),
+                   "'.",call. = FALSE)
+            }
+)

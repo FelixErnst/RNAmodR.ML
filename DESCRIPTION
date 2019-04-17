@@ -24,7 +24,9 @@ Imports:
 Suggests:
     BiocStyle,
     knitr,
-    rmarkdown
+    rmarkdown,
+    RNAmodR.Data,
+    RNAmodR.AlkAnilineSeq
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Collate: 
@@ -33,4 +35,6 @@ Collate:
     'ModifierMLModel-class.R'
     'ModifierML-class.R'
     'ModifierML-data.R'
-    'ModifierMLKeras-class.R'
+    'ModifierMLkeras-class.R'
+    'ModifierMLranger-class.R'
+    'RNAmodR.ML.example.R'

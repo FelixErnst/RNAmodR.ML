@@ -15,5 +15,342 @@ vignette: >
 bibliography: references.bib
 ---
 
+# Introduction
 
 
+
+# Using RNAmodR.ML
+
+```{r, echo = FALSE}
+suppressPackageStartupMessages({
+  library(rtracklayer)
+  library(Rsamtools)
+  library(GenomicFeatures)
+  library(RNAmodR.ML)
+  library(keras)
+})
+```
+```{r, eval = FALSE}
+library(rtracklayer)
+library(Rsamtools)
+library(GenomicFeatures)
+library(RNAmodR.ML)
+library(keras)
+```
+
+The `ModifierML` class extends the `Modifier` class from the `RNAmodR` package
+by one slot, `mlModel`, a getter/setter `getMLModel`/`setMLModel` an additional
+function called from the `aggregate` function: `useMLModel`.
+
+The slot `mlModel` can either be empty or contain a `ModifierMLModel` object.
+
+# Development of new `Modifier` class
+
+As an example for this vignette, we will try to detect D positions in 
+AlkAnilineSeq data.
+
+```{r}
+setClass("ModMLExample",
+         contains = c("ModifierML"),
+         prototype = list(mod = c("D"),
+                          score = "score",
+                          dataType = c("PileupSequenceData",
+                                       "CoverageSequenceData"),
+                          mlModel = character(0)))
+
+ModMLExample <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
+                           ...){
+  RNAmodR:::Modifier("ModMLExample", x = x, annotation = annotation,
+                     sequences = sequences, seqinfo = seqinfo, ...)
+}
+
+setClass("ModSetMLExample",
+         contains = "ModifierSet",
+         prototype = list(elementType = "ModMLExample"))
+
+ModSetMLExample <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
+                              ...){
+  RNAmodR:::ModifierSet("ModMLExample", x, annotation = annotation,
+                        sequences = sequences, seqinfo = seqinfo, ...)
+}
+```
+
+Since the `mlModel` slot contains an empty character, the creation of the object
+will not automatically trigger a search for modifications. However, it will
+aggregate the data in the format we want to use. The `aggregate_example`
+function is just an example, what can be done to aggregate the required data.
+
+```{r}
+setMethod(
+  f = "aggregateData",
+  signature = signature(x = "ModMLExample"),
+  definition =
+    function(x){
+      aggregate_example(x)
+    }
+)
+```
+
+# Getting training data
+
+```{r}
+RNAmodR.files <- RNAmodR.Data::RNAmodR.files
+annotation <- GFF3File(RNAmodR.files[["example.gff3"]])
+sequences <- FaFile(RNAmodR.files[["example.fasta"]])
+files <- list("wt" = c(treated = RNAmodR.files[["example1.bam"]],
+                       treated = RNAmodR.files[["example2.bam"]],
+                       treated = RNAmodR.files[["example3.bam"]]))
+me <-  ModMLExample(files[[1]], annotation, sequences)
+```
+
+```{r}
+data("dmod",package = "RNAmodR.ML")
+nextUPos <- function(gr){
+  pos <- start(dmod) + 2L + 
+             vapply(strsplit(as.character(subseq(sequences(me)[dmod$Parent],
+                                                 start(dmod)+3L)),""),
+                    function(y){which(y == "U")[1]},integer(1))
+  nextU <- dmod
+  ranges(nextU) <- IRanges(start = pos, width = 1L)
+  nextU
+  nextU$mod <- NULL
+  unique(nextU)
+}
+nondmod <- nextUPos(dmod)
+coord <- unique(c(dmod,nondmod))
+coord <- coord[order(as.integer(coord$Parent))]
+```
+
+```{r}
+trainingData <- trainingData(me,coord)
+trainingData <- unlist(trainingData, use.names = FALSE)
+trainingData$labels <- as.integer(trainingData$labels)
+```
+
+# Training a model
+
+```{r}
+library(ranger)
+model <- ranger(labels ~ ., data.frame(trainingData))
+```
+
+# Constructing a 'ModifierMLModel'
+
+The model is then used to create a `ModifierMLModel` object. For different type
+of models `ModifierMLModel` derived classes are available, which currently are:
+
+ * `ModifierMLranger` for models generated with the `ranger` package [@Wright.2017](#References)
+ * `ModifierMLkeras` for models generated with the `keras` package [@Allaire.2018](#References)
+ 
+```{r}
+setClass("ModifierMLexample",
+         contains = c("ModifierMLranger"),
+         prototype = list(model = model))
+ModifierMLexample <- function(...){
+  new("ModifierMLexample")
+}
+```
+
+To be able to use a model, we also need to define an accessor to the predictions
+made by the model. This function is called `useModel` and is prefined for the
+classes mentioned above.
+
+```{r}
+getMethod("useModel", c("ModifierMLranger","ModifierML"))
+```
+
+If the results of these function is not usable, they can redefined for your 
+needs. As defined by `RNAmodR.ML` the return a `NumericList` along the 
+aggregated data of the `ModifierML` object.
+
+# Setting and using the model
+
+The generated model can now be set for the `ModifierML` object using the 
+`setMLModel` function.
+
+```{r}
+mlmodel <- ModifierMLexample()
+setMLModel(me) <- mlmodel
+```
+
+In order for the prediction data to be usable, another function has to be 
+implemented to save the predictions as suitable. The function is called 
+`useMLModel`.
+
+```{r}
+setMethod(f = "useMLModel",
+          signature = signature(x = "ModMLExample"),
+          definition =
+            function(x){
+              predictions <- useModel(getMLModel(x), x)
+              data <- getAggregateData(x)
+              unlisted_data <- unlist(data, use.names = FALSE)
+              unlisted_data$score <- unlist(predictions)
+              x@aggregate <- relist(unlisted_data,data)
+              x
+            }
+)
+```
+
+By re-running the `aggregate` function and force an update of the data, the 
+predictions are made and used to populate the `score` column as outlined above.
+
+```{r}
+me <- aggregate(me, force = TRUE)
+```
+
+# Performance
+
+During the model building phase some form of a performance measurement usually
+is performed. `RNAmodR.ML` includes the functionality from the `ROCR` package
+inherited from the `RNAmodR` package. The overall performance can evaluted
+over the training set or any coordinates.
+
+```{r plot1, fig.cap="Performance of the maching learning model to distinguish unmodified from modified nucleotides."}
+plotROC(me, dmod)
+```
+
+Mainly the arrest rate indicates a modificed nucleotide. 
+
+# Using a `ModifierML` class
+
+Since we want to use the `ModifierML` object to detect modifications,
+we also need to define the `findMod` function. Based on the information on the
+performance we set a threshold of `0.8` for detecting D modifications. In the
+example below this threshold is hardcoded, but can also be implemented using
+the `settings` function.
+
+```{r}
+setMethod(
+  f = "findMod",
+  signature = signature(x = "ModMLExample"),
+  definition =
+    function(x){
+      find_mod_example(x, 100L)
+    }
+)
+```
+
+By redfining the `ModMLExample` class with the slot `mlModel` set to the 
+`ModifierMLexample` class, the `ModMLExample` is complete.
+
+```{r}
+setClass("ModMLExample",
+         contains = c("ModifierML"),
+         prototype = list(mod = c("D"),
+                          score = "score",
+                          dataType = c("PileupSequenceData",
+                                       "CoverageSequenceData"),
+                          mlModel = "ModifierMLexample"))
+me <-  ModMLExample(files[[1]], annotation, sequences)
+```
+
+```{r}
+mod <- modifications(me)
+mod <- split(mod, factor(mod$Parent,levels = unique(mod$Parent)))
+```
+
+# Refining a model
+
+Some of the modification found look reasonable. However, a lot of positions seem 
+to be noise.
+
+```{r}
+options(ucscChromosomeNames=FALSE)
+```
+```{r plot2, fig.cap="Visualization of sequence data"}
+visualizeDataByCoord(sequenceData(me),mod[["3"]][1])
+```
+
+Multiple options exist: Either the threshold can be raised to a higher value, like 
+`0.9` or the model can maybe refined by including these position in another 
+training data set. In addition, the training data might be improved by higher
+sequencing depth.
+
+```{r}
+nonValidMod <- mod[c("3","4","5","18","26","28","29")]
+nonValidMod[["18"]] <- nonValidMod[["18"]][2]
+nonValidMod[["26"]] <- nonValidMod[["26"]][2]
+nonValidMod <- unlist(nonValidMod)
+nonValidMod <- nonValidMod[,"Parent"]
+coord <- unique(c(dmod,nondmod,nonValidMod))
+coord <- coord[order(as.integer(coord$Parent))]
+```
+
+As an example, a new model is trained specifically on the falsly identified
+positions from the previous model
+
+```{r}
+trainingData <- trainingData(me,coord)
+trainingData <- unlist(trainingData, use.names = FALSE)
+trainingData$labels <- as.integer(trainingData$labels)
+```
+
+```{r}
+model2 <- ranger(labels ~ ., data.frame(trainingData), num.trees = 2000)
+setClass("ModifierMLexample2",
+         contains = c("ModifierMLranger"),
+         prototype = list(model = model2))
+ModifierMLexample2 <- function(...){
+  new("ModifierMLexample2")
+}
+mlmodel2 <- ModifierMLexample2()
+me2 <- me
+setMLModel(me2) <- mlmodel2
+me2 <- aggregate(me2, force = TRUE)
+```
+
+After updating the `ModifierMLexample` class and aggregating the data again
+the performance looks a bit different...
+
+```{r plot3, fig.cap=""}
+plotROC(me2, dmod, score="score")
+```
+
+... and leads to a better result for detecting D modifications.
+
+```{r}
+setMethod(
+  f = "findMod",
+  signature = signature(x = "ModMLExample"),
+  definition =
+    function(x){
+      find_mod_example(x, 25L)
+    }
+)
+me2 <- modify(me2, force = TRUE)
+modifications(me2)
+```
+
+In addition to the retraining of a single, one can train several models and
+hold them together as an example data
+
+```{r}
+mse <- ModSetMLExample(list(one = me, two = me2))
+```
+
+```{r plot4, fig.cap="Performance average across models."}
+plotROC(mse, dmod, score= "score",
+        plot.args = list(avg = "threshold", spread.estimate = "stderror"))
+```
+
+# Summary
+
+`RNAmodR.ML` provides the interface for machine learning models to be used
+with `RNAmodR` to detect modified nucleotides in high throughput sequencing 
+data. For your own work defining a working model might take some time. We hope
+that by using `RNAmodR.ML` the steps sourround this crucial step might become 
+a bit easier.
+
+However, if some steps or design choices made for `RNAmodR.ML` do not suit your
+need, let us know. Contributions are always welcome as well.
+
+# Sessioninfo
+
+```{r sessioninfo}
+sessioninfo::session_info()
+```
+
+<a name="References"></a>
+
+# References

@@ -15,4 +15,15 @@
 NULL
 
 #' @import RNAmodR
+#' @import keras
 NULL
+
+#' @name RNAmodR.ML-datasets
+#' @title Example data in the RNAmodR.ML package
+#' @description
+#' This contains an example ModifierSet object
+#' @docType data
+#' @usage dmod
+#' @format a \code{GRanges} object containg D positions
+#' @keywords datasets
+"dmod"
