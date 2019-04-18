@@ -12,6 +12,12 @@ useModel(x, y)
 
 \S4method{useModel}{ModifierMLModel,ANY}(x, y)
 }
+\arguments{
+\item{x}{a \code{ModifierMLModel} object}
+
+\item{y}{See \code{\link[=ModifierMLranger-class]{ModifierMLranger}} for an
+example}
+}
 \description{
 The \code{ModifierMLModel} is a virtual class and is used for representing
 different types of machine learning models used in the detection of
@@ -29,5 +35,6 @@ of modifications.
 }}
 
 \seealso{
-\code{\link[=ModifierMLKeras-class]{ModifierMLKeras}}
+\code{\link[=ModifierMLranger-class]{ModifierMLranger}}
+\code{\link[=ModifierMLkeras-class]{ModifierMLkeras}}
 }

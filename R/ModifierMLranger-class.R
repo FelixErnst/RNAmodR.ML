@@ -14,10 +14,14 @@ NULL
 #' \code{ModifierMLranger} class is virtual itself and must be extended from for
 #' each individual machine learning model.
 #'
+#' @param x a \code{ModifierMLranger} object
+#' @param y a \code{ModifierML} object
+#'
 #' @seealso \code{\link[=ModifierMLModel]{ModifierMLModel}}
 NULL
 
 #' @rdname ModifierMLranger-class
+#' @importFrom stats predict
 #' @import ranger
 #' @export
 setClass("ModifierMLranger",

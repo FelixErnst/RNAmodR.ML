@@ -6,13 +6,12 @@
 \alias{RNAmodR.ML-package}
 \title{RNAmodR.ML}
 \description{
-
-}
-\references{
--
+To extend the functionality of the \code{RNAmodR} package and classical
+detection strategies towards detection through machine learning models,
+\code{RNAmodR.ML} provides classes and an example workflow.
 }
 \seealso{
-The \code{RNAmodR} and \code{RNAmodR.m1A} package.
+\code{\link[RNAmodR:RNAmodR]{RNAmodR}} package.
 }
 \author{
 Felix G M Ernst [aut]

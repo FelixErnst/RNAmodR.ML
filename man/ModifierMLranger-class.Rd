@@ -9,6 +9,11 @@
 \usage{
 \S4method{useModel}{ModifierMLranger,ModifierML}(x, y)
 }
+\arguments{
+\item{x}{a \code{ModifierMLranger} object}
+
+\item{y}{a \code{ModifierML} object}
+}
 \description{
 The \code{ModifierMLranger} class extends the virtual class
 \code{ModifierMLModel} and unifies the access to

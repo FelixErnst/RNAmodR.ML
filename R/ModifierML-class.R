@@ -34,7 +34,12 @@ NULL
 #' If \code{mlModel} is a \code{character}, the class will tried to be create
 #' by calling a function of the same name.
 #'
-#' @return a \code{ModifierML} object of type 'className'
+#' @param x a \code{ModifierML} object.
+#' @param value a \code{ModifierMLModel} object
+#' @param force whether to recreate the aggregated data, if it is already stored
+#' inside the \code{Modifier} object.
+#'
+#' @return a \code{ModifierML} object
 #'
 #' @seealso \code{\link[RNAmodR:Modifier-class]{Modifier}}
 NULL
@@ -95,12 +100,12 @@ setMethod(
     settings <- lapply(settings,
                        function(s){
                          if(length(s) > 1L){
-                           ans <- List(s)
+                           ans <- S4Vectors::List(s)
                            return(ans)
                          }
                          s
                        })
-    settings <- DataFrame(settings)
+    settings <- S4Vectors::DataFrame(settings)
     RNAmodR:::.show_settings(settings)
     valid <- c(validAggregate(object), validModification(object))
     if(!all(valid) && hasMLModel(object)){

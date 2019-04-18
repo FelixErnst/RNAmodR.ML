@@ -36,8 +36,16 @@ useMLModel(x)
 
 \S4method{modify}{ModifierML}(x, force = FALSE)
 }
+\arguments{
+\item{x}{a \code{ModifierML} object.}
+
+\item{value}{a \code{ModifierMLModel} object}
+
+\item{force}{whether to recreate the aggregated data, if it is already stored
+inside the \code{Modifier} object.}
+}
 \value{
-a \code{ModifierML} object of type 'className'
+a \code{ModifierML} object
 }
 \description{
 The \code{ModifierML} class is a virtual class, which provides the central

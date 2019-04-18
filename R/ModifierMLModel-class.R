@@ -17,9 +17,14 @@ NULL
 #' class should than implement a specific model for detecting certain types
 #' of modifications.
 #'
-#' @seealso \code{\link[=ModifierMLKeras-class]{ModifierMLKeras}}
+#' @seealso \code{\link[=ModifierMLranger-class]{ModifierMLranger}}
+#' \code{\link[=ModifierMLkeras-class]{ModifierMLkeras}}
 #'
 #' @slot model a machine learning object of any type
+#'
+#' @param x a \code{ModifierMLModel} object
+#' @param y See \code{\link[=ModifierMLranger-class]{ModifierMLranger}} for an
+#' example
 NULL
 
 #' @rdname ModifierMLModel-class

@@ -3,19 +3,22 @@
 #' @author Felix G M Ernst [aut]
 #'
 #' @description
+#' To extend the functionality of the \code{RNAmodR} package and classical
+#' detection strategies towards detection through machine learning models,
+#' \code{RNAmodR.ML} provides classes and an example workflow.
 #'
-#'
-#' @seealso The \code{RNAmodR} and \code{RNAmodR.m1A} package.
-#'
-#' @references
-#' -
+#' @seealso \code{\link[RNAmodR:RNAmodR]{RNAmodR}} package.
 #'
 #' @docType package
 #' @name RNAmodR.ML
 NULL
 
+#' @import methods
 #' @import RNAmodR
-#' @import keras
+#' @import BiocGenerics
+#' @import S4Vectors
+#' @import IRanges
+#' @import GenomicRanges
 NULL
 
 #' @name RNAmodR.ML-datasets
@@ -27,3 +30,11 @@ NULL
 #' @format a \code{GRanges} object containg D positions
 #' @keywords datasets
 "dmod"
+#' @name RNAmodR.ML-datasets
+#' @format a \code{GRanges} object containg m7G positions
+#' @usage mod7
+"mod7"
+#' @name RNAmodR.ML-datasets
+#' @format a \code{ModMLExample} object for examples
+#' @usage me
+"me"

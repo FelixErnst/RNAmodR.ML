@@ -1,24 +1,33 @@
 Package: RNAmodR.ML
 Type: Package
-Title: RNAmodR: detecting patterns of post-transcriptional modifications using machine learning
-Version: 0.1.0
+Title: RNAmodR.ML: detecting patterns of post-transcriptional modifications using machine learning
+Version: 0.98.0
 Authors@R: c(person("Felix G.M.",
-                  "Ernst", 
-                  email = "felix.gm.ernst@outlook.com", 
-                  role = c("aut", "cre"),
-                  comment = c(ORCID = "0000-0001-5064-0928")),
+                    "Ernst", 
+                    email = "felix.gm.ernst@outlook.com", 
+                    role = c("aut", "cre"),
+                    comment = c(ORCID = "0000-0001-5064-0928")),
              person("Denis L.J.", 
                     "Lafontaine", 
                     email = "denis.lafontaine@ulb.ac.be", 
                     role = c("ctb")))
-Description: title
+Description: To extend the functionality of the `RNAmodR` package and classical
+    detection strategies towards detection through machine learning models, 
+    RNAmodR.ML provides classes and an example workflow.
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: false
 Depends:
-    R (>= 3.5),
+    R (>= 3.6),
     RNAmodR
 Imports:
+    methods,
+    assertive,
+    BiocGenerics,
+    S4Vectors,
+    IRanges,
+    GenomicRanges,
+    ranger,
     keras,
     tensorflow
 Suggests:
@@ -26,9 +35,10 @@ Suggests:
     knitr,
     rmarkdown,
     RNAmodR.Data,
-    RNAmodR.AlkAnilineSeq
-RoxygenNote: 6.1.1
-VignetteBuilder: knitr
+    RNAmodR.AlkAnilineSeq,
+    GenomicFeatures,
+    Rsamtools,
+    rtracklayer
 Collate: 
     'RNAmodR.ML.R'
     'AllGenerics.R'
@@ -38,3 +48,5 @@ Collate:
     'ModifierMLkeras-class.R'
     'ModifierMLranger-class.R'
     'RNAmodR.ML.example.R'
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr

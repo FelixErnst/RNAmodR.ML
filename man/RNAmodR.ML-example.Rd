@@ -5,24 +5,21 @@
 \alias{RNAmodR.ML.example}
 \alias{aggregate_example}
 \alias{calculate_correct_base_score}
-\alias{calculate_arrest_rate}
-\alias{calculate_mismatch_rate}
 \alias{find_mod_example}
 \title{RNAmodR.ML functions for example}
 \usage{
-calculate_arrest_rate(data)
-
-calculate_mismatch_rate(pileup, letters)
-
 aggregate_example(x)
 
 find_mod_example(x, minCoverage)
 }
+\arguments{
+\item{x}{a \code{ModifierML} object}
+
+\item{minCoverage}{the minimum coverage for finding modifications}
+}
 \description{
 The exported functions here are used in the vignette as examples. If you want
-to reuse them, please implement them yourself. THis will allow for fine
-tuning on your side and does not create a depency to example coud
-}
-\examples{
-
+to reuse them, please implement them yourself. This will allow for fine
+tuning on your side and does not create a depency to example functions, which
+could change
 }

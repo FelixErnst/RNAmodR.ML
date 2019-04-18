@@ -26,29 +26,37 @@ NULL
 #'
 #' @examples
 #' data("dmod",package = "RNAmodR.ML")
+#' setClass("ModMLExample",
+#'          contains = c("ModifierML"),
+#'          prototype = list(mod = c("D"),
+#'                           score = "score",
+#'                           dataType = c("PileupSequenceData",
+#'                                        "CoverageSequenceData"),
+#'                           mlModel = character(0)))
 #' data("me",package = "RNAmodR.ML")
 #' nextUPos <- function(gr){
-#'   grl <- lapply(seq.int(1,3),
-#'                 function(i){
-#'                   pos <- start(dmod) + 2L +
-#'                     vapply(strsplit(as.character(subseq(sequences(me)[dmod$Parent],
-#'                                                         start(dmod)+3L)),""),
-#'                            function(y){which(y == "U")[i]},integer(1))
-#'                   nextU <- dmod
-#'                   ranges(nextU) <- IRanges(start = pos, width = 1L)
-#'                   nextU
-#'                 })
-#'   grl <- GRangesList(grl)
-#'   gr <- unlist(grl)
-#'   gr$mod <- NULL
-#'   unique(gr)
+#'   nextU <- lapply(seq.int(1L,2L),
+#'                   function(i){
+#'                     subseq <- subseq(RNAmodR::sequences(me)[dmod$Parent], start(dmod)+3L)
+#'                     pos <- start(dmod) + 2L +
+#'                       vapply(strsplit(as.character(subseq),""),
+#'                              function(y){which(y == "U")[i]},integer(1))
+#'                     ans <- dmod
+#'                     ranges(ans) <- IRanges(start = pos, width = 1L)
+#'                     ans
+#'                   })
+#'   nextU <- do.call(c,nextU)
+#'   nextU$mod <- NULL
+#'   unique(nextU)
 #' }
 #' nondmod <- nextUPos(dmod)
-#' coord <- c(dmod,nondmod)
+#' nondmod <- nondmod[!(nondmod %in% dmod)]
+#' coord <- unique(c(dmod,nondmod))
+#' coord <- coord[order(as.integer(coord$Parent))]
 #' trainingData(me,coord)
 NULL
 
-.get_training_data <- function(x, coord, ...){
+.get_training_data <- function(x, coord){
   labeledData <- labelByCoord(x, coord)
   unlisted_ld <- unlist(labeledData, use.names = FALSE)
   unlisted_ld <-
@@ -61,15 +69,15 @@ NULL
 #' @export
 setMethod("trainingData",
           signature = c("ModifierML", "GRanges"),
-          function(x, coord, ...){
-            .get_training_data(x, coord, ...)
+          function(x, coord){
+            .get_training_data(x, coord)
           }
 )
 #' @rdname trainingData
 #' @export
 setMethod("trainingData",
           signature = c("ModifierML", "GRangesList"),
-          function(x, coord, ...){
-            .get_training_data(x, coord, ...)
+          function(x, coord){
+            .get_training_data(x, coord)
           }
 )

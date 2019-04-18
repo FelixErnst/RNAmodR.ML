@@ -8,15 +8,14 @@ NULL
 #'
 #' @description
 #' The exported functions here are used in the vignette as examples. If you want
-#' to reuse them, please implement them yourself. THis will allow for fine
-#' tuning on your side and does not create a depency to example coud
+#' to reuse them, please implement them yourself. This will allow for fine
+#' tuning on your side and does not create a depency to example functions, which
+#' could change
 #'
-#' @examples
-#'
+#' @param x a \code{ModifierML} object
+#' @param minCoverage the minimum coverage for finding modifications
 NULL
 
-#' @rdname RNAmodR.ML-example
-#' @export
 calculate_arrest_rate <- function(data){
   unlisted_data <- unlist(data, use.names = FALSE)
   rownames(unlisted_data) <- NULL
@@ -37,8 +36,6 @@ calculate_arrest_rate <- function(data){
   arrest
 }
 
-#' @rdname RNAmodR.ML-example
-#' @export
 calculate_mismatch_rate <- function(pileup, letters){
   pos <- seq_along(letters)
   letters[letters == "U"] <- "T"
@@ -96,11 +93,11 @@ aggregate_example <- function(x){
   offsetCol <- c("base","arrest")
   offset <- offset[,offsetCol]
   ans <- S4Vectors::DataFrame(
-    "u2" = rbind(offset,offset,ans[seq_len(nrow(ans) - 2L),offsetCol]),
-    "u1" = rbind(offset,ans[seq_len(nrow(ans) - 1L),offsetCol]),
+    "d2" = rbind(offset,offset,ans[seq_len(nrow(ans) - 2L),offsetCol]),
+    "d1" = rbind(offset,ans[seq_len(nrow(ans) - 1L),offsetCol]),
     ans,
-    "d1" = rbind(ans[seq.int(from = 2L, to = nrow(ans)),offsetCol],offset),
-    "d2" = rbind(ans[seq.int(from = 3L, to = nrow(ans)),offsetCol],offset,offset))
+    "u1" = rbind(ans[seq.int(from = 2L, to = nrow(ans)),offsetCol],offset),
+    "u2" = rbind(ans[seq.int(from = 3L, to = nrow(ans)),offsetCol],offset,offset))
   # covert to numeric values
   baseLevels <- c("G","A","U","C","N")
   ans$u2.base <- as.numeric(factor(ans$u2.base, levels = baseLevels))

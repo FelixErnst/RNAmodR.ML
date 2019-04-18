@@ -13,9 +13,24 @@ NULL
 #' in RNA sequencing data. The \code{ModifierMLkeras} class is virtual itself
 #' and must be extended from for each individual machine learning model.
 #'
+#' The \code{ModifierMLkeras} class extends the virtual class
+#' \code{ModifierMLModel} and unifies the access to \code{Keras} machine
+#' learning models used in the detection of post-transcriptional modifications
+#' in RNA sequencing data. The \code{ModifierMLkeras} class is virtual itself
+#' and must be extended from for each individual machine learning model.
+#'
+#' Since a stored model needs to be loaded from file, the additional slot
+#' \code{modelFile} is used and can be accessed through a function of the same
+#' name. Upon creation of a \code{ModifierMLkeras} object, the model is loaded
+#' from file, if \code{modelFile} is not an empty character value and a valid
+#' file name.
+#'
 #' @slot modelFile a \code{character} vector of length == 1L, which describes
 #' a model to load via \code{\link[keras:save_model_hdf5]{load_model_hdf5}}.
 #' The model is then stored in the \code{model} slot.
+#'
+#' @param x a \code{ModifierMLkeras} object
+#' @param y a \code{ModifierML} object
 #'
 #' @seealso \code{\link[=ModifierMLModel]{ModifierMLModel}}
 NULL
@@ -24,8 +39,7 @@ NULL
 #' @export
 setClass("ModifierMLkeras",
          contains = c("ModifierMLModel"),
-         slots = c(modelFile = "character",
-                   abstraction = "character"))
+         slots = c(modelFile = "character"))
 
 #' @importFrom keras load_model_hdf5
 .load_keras_model <- function(modelFile){
@@ -33,31 +47,38 @@ setClass("ModifierMLkeras",
 }
 
 .is_keras_model <- function(model){
-  return(TRUE)
+  is(model,"keras.engine.training.Model")
 }
 
 #' @importFrom keras model_to_yaml
 setMethod("initialize",
           signature = "ModifierMLkeras",
-          function(.Object, model){
-            if(is.null(model)){
-              if(!file.exists(object@modelFile)){
+          function(.Object, ...){
+            .Object <- callNextMethod()
+            if(is.null(.Object@model) && !assertive::is_empty(.Object@modelFile)){
+              if(!file.exists(.Object@modelFile)){
                 stop("File for existing model was not found at ",
-                     object@modelFile, call. = FALSE)
+                     .Object@modelFile, call. = FALSE)
               }
-              model <- .load_keras_model(object@modelFile)
-              abstraction <- keras::model_to_yaml(model)
-            } else if(.is_keras_model(model)) {
-              abstraction <- keras::model_to_yaml(model)
-            } else {
+              model <- .load_keras_model(.Object@modelFile)
+            } else if(!.is_keras_model(model)){
               stop("Something went wrong. 'model' should be predefined by the ",
-                   "actual ModifierMLkeras class or given as Keras model.")
+                   "actual ModifierMLkeras class through the `modelFile` slot ",
+                   "or given as a Keras model during object creation.")
             }
-            .Object@abstraction <- abstraction
             .Object@model <- model
             .Object
           }
 )
+
+# accessors --------------------------------------------------------------------
+
+setGeneric("modelFile",
+           signature = "x",
+           function(x) standardGeneric("modelFile"))
+setMethod("modelFile",
+          signature = c("x" = "ModifierMLkeras"),
+          function(x){x@modelFile})
 
 # functions --------------------------------------------------------------------
 
@@ -67,17 +88,7 @@ setMethod(f = "useModel",
           signature = signature(x = "ModifierMLkeras", y = "ModifierML"),
           definition =
             function(x, y){
-              data <- getAggregateData(y)
-              model <- x@model
-              if(!is(model,"keras.engine.training.Model")){
-                stop("model is not a keras model")
-              }
-              unlisted_data <- unlist(data, use.names = FALSE)
-
-              browser()
-
-              unlisted_data[,mainScore(y)] <- 0
-              ans <- relist(unlisted_data,data)
-              ans
+              stop("This functions needs to be implemented by '",class(x),
+                   "'.",call. = FALSE)
             }
 )

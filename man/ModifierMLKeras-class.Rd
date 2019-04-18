@@ -9,12 +9,29 @@
 \usage{
 \S4method{useModel}{ModifierMLkeras,ModifierML}(x, y)
 }
+\arguments{
+\item{x}{a \code{ModifierMLkeras} object}
+
+\item{y}{a \code{ModifierML} object}
+}
 \description{
 The \code{ModifierMLkeras} class extends the virtual class
 \code{ModifierMLModel} and unifies the access to \code{Keras} machine
 learning models used in the detection of post-transcriptional modifications
 in RNA sequencing data. The \code{ModifierMLkeras} class is virtual itself
 and must be extended from for each individual machine learning model.
+
+The \code{ModifierMLkeras} class extends the virtual class
+\code{ModifierMLModel} and unifies the access to \code{Keras} machine
+learning models used in the detection of post-transcriptional modifications
+in RNA sequencing data. The \code{ModifierMLkeras} class is virtual itself
+and must be extended from for each individual machine learning model.
+
+Since a stored model needs to be loaded from file, the additional slot
+\code{modelFile} is used and can be accessed through a function of the same
+name. Upon creation of a \code{ModifierMLkeras} object, the model is loaded
+from file, if \code{modelFile} is not an empty character value and a valid
+file name.
 }
 \section{Slots}{
 

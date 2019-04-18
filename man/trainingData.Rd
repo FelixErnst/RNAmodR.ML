@@ -7,11 +7,11 @@
 \alias{trainingData,ModifierML,GRangesList-method}
 \title{Assemble training data from aggregate sequence data}
 \usage{
-trainingData(x, coord, ...)
+trainingData(x, coord)
 
-\S4method{trainingData}{ModifierML,GRanges}(x, coord, ...)
+\S4method{trainingData}{ModifierML,GRanges}(x, coord)
 
-\S4method{trainingData}{ModifierML,GRangesList}(x, coord, ...)
+\S4method{trainingData}{ModifierML,GRangesList}(x, coord)
 }
 \arguments{
 \item{x}{a \code{ModifierML} object}
@@ -31,25 +31,33 @@ to positions as defined by \code{coord}. Positions with an entry in the
 }
 \examples{
 data("dmod",package = "RNAmodR.ML")
+setClass("ModMLExample",
+         contains = c("ModifierML"),
+         prototype = list(mod = c("D"),
+                          score = "score",
+                          dataType = c("PileupSequenceData",
+                                       "CoverageSequenceData"),
+                          mlModel = character(0)))
 data("me",package = "RNAmodR.ML")
 nextUPos <- function(gr){
-  grl <- lapply(seq.int(1,3),
-                function(i){
-                  pos <- start(dmod) + 2L +
-                    vapply(strsplit(as.character(subseq(sequences(me)[dmod$Parent],
-                                                        start(dmod)+3L)),""),
-                           function(y){which(y == "U")[i]},integer(1))
-                  nextU <- dmod
-                  ranges(nextU) <- IRanges(start = pos, width = 1L)
-                  nextU
-                })
-  grl <- GRangesList(grl)
-  gr <- unlist(grl)
-  gr$mod <- NULL
-  unique(gr)
+  nextU <- lapply(seq.int(1L,2L),
+                  function(i){
+                    subseq <- subseq(RNAmodR::sequences(me)[dmod$Parent], start(dmod)+3L)
+                    pos <- start(dmod) + 2L +
+                      vapply(strsplit(as.character(subseq),""),
+                             function(y){which(y == "U")[i]},integer(1))
+                    ans <- dmod
+                    ranges(ans) <- IRanges(start = pos, width = 1L)
+                    ans
+                  })
+  nextU <- do.call(c,nextU)
+  nextU$mod <- NULL
+  unique(nextU)
 }
 nondmod <- nextUPos(dmod)
-coord <- c(dmod,nondmod)
+nondmod <- nondmod[!(nondmod \%in\% dmod)]
+coord <- unique(c(dmod,nondmod))
+coord <- coord[order(as.integer(coord$Parent))]
 trainingData(me,coord)
 }
 \seealso{

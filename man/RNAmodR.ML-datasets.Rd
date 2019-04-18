@@ -4,10 +4,16 @@
 \name{RNAmodR.ML-datasets}
 \alias{RNAmodR.ML-datasets}
 \alias{dmod}
+\alias{mod7}
+\alias{me}
 \title{Example data in the RNAmodR.ML package}
 \format{a \code{GRanges} object containg D positions}
 \usage{
 dmod
+
+mod7
+
+me
 }
 \description{
 This contains an example ModifierSet object
