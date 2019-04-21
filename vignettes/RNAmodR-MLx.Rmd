@@ -17,6 +17,22 @@ bibliography: references.bib
 
 # Introduction
 
+Post-transcriptional modifications can be found abundantly in rRNA and tRNA and
+can be detected classically via several strategies. However, difficulties arise
+if the identity and the position of the modified nucleotides is to be determined
+at the same time. Classically, a primer extension, a form of reverse
+transcription (RT), would allow certain modifications to be accessed by blocks
+during the RT changes or changes in the cDNA sequences. Other modification would
+need to be selectively treated by chemical reactions to influence the outcome of
+the reverse transcription.
+
+With the increased availability of high throughput sequencing, these classical
+methods were adapted to high throughput methods allowing more RNA molecules to
+be accessed at the same time. However, patterns of some modification cannot be
+detected by accessing small number of parameters. For these cases machine 
+learning models can be trained on data from positions known to be modified
+in order to detect additional modified positions.
+
 To extend the functionality of the `RNAmodR` package and classical detection
 strategies used for RiboMethSeq or AlkAnilineSeq (see `RNAmodR.RiboMethSeq` and
 `RNAmodR.AlkAnilineSeq` packages) towards detection through machine learning
