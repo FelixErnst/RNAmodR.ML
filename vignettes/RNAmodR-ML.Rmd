@@ -69,9 +69,9 @@ different types of models `ModifierMLModel` derived classes are available, which
 currently are:
 
 * `ModifierMLranger` for models generated with the `ranger` package
-[@Wright.2017](#References)
+[[@Wright.2017]](#References)
 * `ModifierMLkeras` for models generated with the `keras` package 
-[@Allaire.2018](#References)
+[[@Allaire.2018]](#References)
 
 # Development of new `Modifier` class
 
