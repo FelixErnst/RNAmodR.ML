@@ -39,6 +39,7 @@ strategies used for RiboMethSeq or AlkAnilineSeq (see `RNAmodR.RiboMethSeq` and
 models, `RNAmodR.ML` provides classes and an example workflow.
 
 <a name="RNAmodR.ML"></a>
+
 # Using RNAmodR.ML
 
 ```{r, echo = FALSE}
