@@ -14,6 +14,9 @@
 
 \item{y}{a \code{ModifierML} object}
 }
+\value{
+a \code{ModifierMLranger} object
+}
 \description{
 The \code{ModifierMLranger} class extends the virtual class
 \code{ModifierMLModel} and unifies the access to
@@ -21,6 +24,15 @@ The \code{ModifierMLranger} class extends the virtual class
 detection of post-transcriptional modifications in RNA sequencing data. The
 \code{ModifierMLranger} class is virtual itself and must be extended from for
 each individual machine learning model.
+}
+\examples{
+# example class derived from the virtual ModifierMLranger class
+setClass("ModifierMLexample",
+         contains = c("ModifierMLranger"))
+ModifierMLexample <- function(...){
+  new("ModifierMLexample")
+}
+mlmodel <- ModifierMLexample()
 }
 \seealso{
 \code{\link[=ModifierMLModel]{ModifierMLModel}}

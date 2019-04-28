@@ -14,6 +14,20 @@ NULL
 #'
 #' @param x a \code{ModifierML} object
 #' @param minCoverage the minimum coverage for finding modifications
+#'
+#' @return
+#' \itemize{
+#' \item{aggregate_example} {a \code{SplitDataFrameList} object containing the
+#' aggregated data for a \code{Modifier} object}
+#' \item{find_mod_example} {a \code{GRanges} object with coordinates of
+#' found modifications}
+#' }
+#'
+#' @examples
+#' # no examples runable. See vignette for explanation on how to use these
+#' # example functions
+#' aggregate_example
+#' find_mod_example
 NULL
 
 calculate_arrest_rate <- function(data){

@@ -33,6 +33,8 @@ NULL
 #' @param y a \code{ModifierML} object
 #'
 #' @seealso \code{\link[=ModifierMLModel]{ModifierMLModel}}
+#'
+#' @return a \code{ModifierMLkeras} object
 NULL
 
 #' @rdname ModifierMLkeras-class

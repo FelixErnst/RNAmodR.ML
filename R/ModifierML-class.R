@@ -42,6 +42,22 @@ NULL
 #' @return a \code{ModifierML} object
 #'
 #' @seealso \code{\link[RNAmodR:Modifier-class]{Modifier}}
+#'
+#' @examples
+#' # an example implementation of a ModifierML object
+#' setClass("ModMLExample",
+#'          contains = c("ModifierML"),
+#'          prototype = list(mod = c("D"),
+#'                           score = "score",
+#'                           dataType = c("PileupSequenceData",
+#'                                        "CoverageSequenceData"),
+#'                           mlModel = character(0)))
+#' # constructor function for ModMLExample
+#' ModMLExample <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
+#'                          ...){
+#'   RNAmodR:::Modifier("ModMLExample", x = x, annotation = annotation,
+#'                      sequences = sequences, seqinfo = seqinfo, ...)
+#' }
 NULL
 
 setClassUnion("character_OR_ModifierMLModel",

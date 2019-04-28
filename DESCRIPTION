@@ -14,6 +14,8 @@ Authors@R: c(person("Felix G.M.",
 Description: To extend the functionality of the `RNAmodR` package and classical
     detection strategies towards detection through machine learning models, 
     RNAmodR.ML provides classes and an example workflow.
+biocViews: 
+    Software, Infrastructure, WorkflowStep, Visualization, Sequencing
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: false
@@ -27,11 +29,13 @@ Imports:
     S4Vectors,
     IRanges,
     GenomicRanges,
+    stats,
     ranger
 Suggests:
     BiocStyle,
     knitr,
     rmarkdown,
+    testthat,
     RNAmodR.Data,
     RNAmodR.AlkAnilineSeq,
     GenomicFeatures,

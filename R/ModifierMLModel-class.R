@@ -25,6 +25,19 @@ NULL
 #' @param x a \code{ModifierMLModel} object
 #' @param y See \code{\link[=ModifierMLranger-class]{ModifierMLranger}} for an
 #' example
+#'
+#' @return a \code{ModifierMLModel} object
+#'
+#' @seealso \code{\link{ModifierMLranger}} for an example implementation
+#'
+#' @examples
+#' # an example implementation of a ModifierMLModel object using the
+#' # ModifierMLModel derived class ModifierMLranger
+#' setClass("ModifierMLexample",
+#'          contains = c("ModifierMLranger"))
+#' ModifierMLexample <- function(...){
+#'   new("ModifierMLexample")
+#' }
 NULL
 
 #' @rdname ModifierMLModel-class

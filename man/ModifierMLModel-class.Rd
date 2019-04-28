@@ -18,6 +18,9 @@ useModel(x, y)
 \item{y}{See \code{\link[=ModifierMLranger-class]{ModifierMLranger}} for an
 example}
 }
+\value{
+a \code{ModifierMLModel} object
+}
 \description{
 The \code{ModifierMLModel} is a virtual class and is used for representing
 different types of machine learning models used in the detection of
@@ -34,7 +37,18 @@ of modifications.
 \item{\code{model}}{a machine learning object of any type}
 }}
 
+\examples{
+# an example implementation of a ModifierMLModel object using the
+# ModifierMLModel derived class ModifierMLranger
+setClass("ModifierMLexample",
+         contains = c("ModifierMLranger"))
+ModifierMLexample <- function(...){
+  new("ModifierMLexample")
+}
+}
 \seealso{
 \code{\link[=ModifierMLranger-class]{ModifierMLranger}}
 \code{\link[=ModifierMLkeras-class]{ModifierMLkeras}}
+
+\code{\link{ModifierMLranger}} for an example implementation
 }

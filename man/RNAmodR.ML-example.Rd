@@ -17,9 +17,23 @@ find_mod_example(x, minCoverage)
 
 \item{minCoverage}{the minimum coverage for finding modifications}
 }
+\value{
+\itemize{
+\item{aggregate_example} {a \code{SplitDataFrameList} object containing the
+aggregated data for a \code{Modifier} object}
+\item{find_mod_example} {a \code{GRanges} object with coordinates of
+found modifications}
+}
+}
 \description{
 The exported functions here are used in the vignette as examples. If you want
 to reuse them, please implement them yourself. This will allow for fine
 tuning on your side and does not create a depency to example functions, which
 could change
+}
+\examples{
+# no examples runable. See vignette for explanation on how to use these
+# example functions
+aggregate_example
+find_mod_example
 }
