@@ -1,7 +1,7 @@
 Package: RNAmodR.ML
 Type: Package
 Title: RNAmodR.ML: detecting patterns of post-transcriptional modifications using machine learning
-Version: 0.98.0
+Version: 0.99.0
 Authors@R: c(person("Felix G.M.",
                     "Ernst", 
                     email = "felix.gm.ernst@outlook.com", 
@@ -27,9 +27,7 @@ Imports:
     S4Vectors,
     IRanges,
     GenomicRanges,
-    ranger,
-    keras,
-    tensorflow
+    ranger
 Suggests:
     BiocStyle,
     knitr,
@@ -38,7 +36,8 @@ Suggests:
     RNAmodR.AlkAnilineSeq,
     GenomicFeatures,
     Rsamtools,
-    rtracklayer
+    rtracklayer,
+    keras
 Collate: 
     'RNAmodR.ML.R'
     'AllGenerics.R'
@@ -50,3 +49,5 @@ Collate:
     'RNAmodR.ML.example.R'
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
+BugReports: https://github.com/FelixErnst/RNAmodR.ML/issues
+URL: https://github.com/FelixErnst/RNAmodR.ML
