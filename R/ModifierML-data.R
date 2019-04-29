@@ -18,6 +18,9 @@ NULL
 #' @param x a \code{ModifierML} object
 #' @param coord a \code{GRanges} or a \code{GRangesList} object
 #' @param ... See \code{\link[RNAmodR:subsetByCoord]{subsetByCoord}}
+#' for more details. \code{type} is hard coded to \code{FALSE} to disregard
+#' subsetting by type. In addition, \code{merge} is set to \code{FALSE} by
+#' default, but it can be set to \code{TRUE}.
 #'
 #' @return a \code{CompressedSplitDataFrameList} with aggregate data and an
 #' addition label column.
@@ -56,28 +59,33 @@ NULL
 #' trainingData(me,coord)
 NULL
 
-.get_training_data <- function(x, coord){
+.get_training_data <- function(x, coord, ...){
   labeledData <- labelByCoord(x, coord)
   unlisted_ld <- unlist(labeledData, use.names = FALSE)
   unlisted_ld <-
     unlisted_ld[,!(colnames(unlisted_ld) %in% mainScore(x))]
   labeledData <- relist(unlisted_ld, labeledData)
-  subsetByCoord(labeledData, coord, type = NA)
+  args <- list(...)
+  if(is.null(args[["merge"]])){
+    args[["merge"]] <- FALSE
+  }
+  args[["type"]] <- NA
+  do.call(subsetByCoord, c(list(labeledData, coord),args))
 }
 
 #' @rdname trainingData
 #' @export
 setMethod("trainingData",
           signature = c("ModifierML", "GRanges"),
-          function(x, coord){
-            .get_training_data(x, coord)
+          function(x, coord, ...){
+            .get_training_data(x, coord, ...)
           }
 )
 #' @rdname trainingData
 #' @export
 setMethod("trainingData",
           signature = c("ModifierML", "GRangesList"),
-          function(x, coord){
-            .get_training_data(x, coord)
+          function(x, coord, ...){
+            .get_training_data(x, coord, ...)
           }
 )

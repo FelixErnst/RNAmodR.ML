@@ -41,7 +41,6 @@ setClass("ModifierMLkeras",
          contains = c("ModifierMLModel"),
          slots = c(modelFile = "character"))
 
-#' @importFrom keras load_model_hdf5
 .load_keras_model <- function(modelFile){
   keras::load_model_hdf5(modelFile)
 }

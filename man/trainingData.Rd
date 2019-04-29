@@ -7,18 +7,21 @@
 \alias{trainingData,ModifierML,GRangesList-method}
 \title{Assemble training data from aggregate sequence data}
 \usage{
-trainingData(x, coord)
+trainingData(x, coord, ...)
 
-\S4method{trainingData}{ModifierML,GRanges}(x, coord)
+\S4method{trainingData}{ModifierML,GRanges}(x, coord, ...)
 
-\S4method{trainingData}{ModifierML,GRangesList}(x, coord)
+\S4method{trainingData}{ModifierML,GRangesList}(x, coord, ...)
 }
 \arguments{
 \item{x}{a \code{ModifierML} object}
 
 \item{coord}{a \code{GRanges} or a \code{GRangesList} object}
 
-\item{...}{See \code{\link[RNAmodR:subsetByCoord]{subsetByCoord}}}
+\item{...}{See \code{\link[RNAmodR:subsetByCoord]{subsetByCoord}}
+for more details. \code{type} is hard coded to \code{FALSE} to disregard
+subsetting by type. In addition, \code{merge} is set to \code{FALSE} by
+default, but it can be set to \code{TRUE}.}
 }
 \value{
 a \code{CompressedSplitDataFrameList} with aggregate data and an

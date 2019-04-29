@@ -52,7 +52,7 @@ setGeneric(
 setGeneric(
   name = "trainingData",
   signature = c("x", "coord"),
-  def = function(x, coord)
+  def = function(x, coord, ...)
     standardGeneric("trainingData")
 )
 
