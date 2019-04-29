@@ -411,6 +411,25 @@ a bit easier.
 However, if some steps or design choices made for `RNAmodR.ML` do not suit your
 need, let us know. Contributions are always welcome as well.
 
+# Hints
+
+We also want to provide some additional hints and suggestions for developing 
+machine learning models.
+
+ 1. the aggregate function is used in the example above as a feature engineering
+ tool. You might want to skip this step, if you want to use a deep learning
+ model for example with `keras`.
+ 2. If you don't want to engage in a feature enginering step and just want to 
+ aggregate the sequence data as is, provide a custom `cbind` implementation
+ for the `aggregateData` function. Since you probably don't want to hold to
+ copies of the same data in memory (one as the aggregate, one as the sequence 
+ data), you can create a `Modifier` object, with the additional argument
+ `dont.save.seqdata`. For more details have a look at `?Modifier`.
+ 3. in a deep learning context, if a coordinate is selected without a flanking 
+ value, a 2D tensor is returned (sample, values). This can be converted into a 
+ 3D tensor by providing a flanking value.
+
+
 # Sessioninfo
 
 ```{r sessioninfo}
