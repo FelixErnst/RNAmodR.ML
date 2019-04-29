@@ -39,39 +39,41 @@ strategies used for RiboMethSeq or AlkAnilineSeq (see `RNAmodR.RiboMethSeq` and
 models, `RNAmodR.ML` provides classes and an example workflow.
 
 <a name="RNAmodR.ML"></a>
+
 # Using RNAmodR.ML
 
 ```{r, echo = FALSE}
 suppressPackageStartupMessages({
   library(rtracklayer)
-  library(Rsamtools)
-  library(GenomicFeatures)
+  library(GenomicRanges)
   library(RNAmodR.ML)
-  library(keras)
+  library(RNAmodR.Data)
 })
 ```
 ```{r, eval = FALSE}
 library(rtracklayer)
-library(Rsamtools)
-library(GenomicFeatures)
+library(GenomicRanges)
 library(RNAmodR.ML)
-library(keras)
+library(RNAmodR.Data)
 ```
 
 The `ModifierML` class extends the `Modifier` class from the `RNAmodR` package
 and adds one slot, `mlModel`, a getter/setter `getMLModel`/`setMLModel`, an 
-additional `useMLModel` function called from the `aggregate` function.
+additional `useMLModel` function to be called from the `aggregate` function.
 
-The slot `mlModel` can either be empty character or contain a name of a
-`ModifierMLModel` class, which is loaded upon creation of a `ModifierML` object.
-The `ModifierMLModel` class is a wrapper around a machine learning model. For
-different types of models `ModifierMLModel` derived classes are available, which
+The slot `mlModel` can either be an empty character or contain a name of a
+`ModifierMLModel` class, which is loaded upon creation of a `ModifierML` object,
+and serves as a wrapper around a machine learning model. For different types of
+machine learning models `ModifierMLModel` derived classes are available, which
 currently are:
 
 * `ModifierMLranger` for models generated with the `ranger` package
 [[@Wright.2017]](#References)
 * `ModifierMLkeras` for models generated with the `keras` package 
 [[@Allaire.2018]](#References)
+
+To illustrate how to develop a machine learning model with help from the 
+`RNAmodR.ML` package, an example is given below.
 
 # Development of new `Modifier` class
 
@@ -108,7 +110,8 @@ ModSetMLExample <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
 Since the `mlModel` slot contains an empty character, the creation of the object
 will not automatically trigger a search for modifications. However, it will
 aggregate the data in the format we want to use. The `aggregate_example`
-function is just an example, what can be done to aggregate the required data.
+function is just an example and the aggregation of the data is part of the 
+model building. (See (#Summary))
 
 ```{r}
 setMethod(
@@ -126,13 +129,14 @@ setMethod(
 To gather training data, we just create a `ModMLExample` object and let it do
 its job.
 
+```{r,include=FALSE}
+annotation <- GFF3File(RNAmodR.Data.example.gff3())
+sequences <- RNAmodR.Data.example.fasta()
+files <- list("wt" = c(treated = RNAmodR.Data.example.bam.1(),
+                       treated = RNAmodR.Data.example.bam.2(),
+                       treated = RNAmodR.Data.example.bam.3()))
+```
 ```{r}
-RNAmodR.files <- RNAmodR.Data::RNAmodR.files
-annotation <- GFF3File(RNAmodR.files[["example.gff3"]])
-sequences <- FaFile(RNAmodR.files[["example.fasta"]])
-files <- list("wt" = c(treated = RNAmodR.files[["example1.bam"]],
-                       treated = RNAmodR.files[["example2.bam"]],
-                       treated = RNAmodR.files[["example3.bam"]]))
 me <-  ModMLExample(files[[1]], annotation, sequences)
 ```
 
@@ -176,9 +180,9 @@ trainingData$labels <- as.integer(trainingData$labels)
 # Training a model
 
 How a specific model can be trained or what kind of strategies can be employed
-to successfully train a model is out of scope for the vignette. For this example
-a random forest is trained using the functionality provided by the `ranger`
-package.
+to successfully train a model, is out of scope for the vignette. For this 
+example a random forest is trained using the functionality provided by the 
+`ranger` package.
 
 ```{r}
 library(ranger)
@@ -199,23 +203,23 @@ ModifierMLexample <- function(...){
 mlmodel <- ModifierMLexample()
 ```
 
-To be able to use a model, we also need to define an accessor to the predictions
-made by the model. This function is called `useModel` and is already prefined 
-for the `ModifierMLModel` classes mentioned above in secion 
-[Using RNAmodR.ML](#RNAmodR.ML).
+To be able to use the model via the `ModifierMLModel` class, we also need to
+define an accessor to the predictions made by the model. This function is called
+`useModel` and is already prefined for the `ModifierMLModel` classes mentioned
+above in secion [Using RNAmodR.ML](#RNAmodR.ML).
 
 ```{r}
 getMethod("useModel", c("ModifierMLranger","ModifierML"))
 ```
 
-If the results of these function is not usable, they can redefined for your 
-needs. As defined by `RNAmodR.ML` the return a `NumericList` along the 
-aggregated data of the `ModifierML` object.
+If the results of these function is not usable for a specific model, it can
+redefined for your needs. As defined by `RNAmodR.ML` the function returns a
+`NumericList` along the aggregated data of the `ModifierML` object.
 
 # Setting and using the model
 
-The generated model can now be set for the `ModifierML` object using the 
-`setMLModel` function.
+The generated `ModifierMLexample` wrapper can now be set for the `ModifierML`
+object using the `setMLModel` function.
 
 ```{r}
 setMLModel(me) <- mlmodel
@@ -250,10 +254,10 @@ me <- aggregate(me, force = TRUE)
 # Performance
 
 During the model building phase some form of a performance measurement usually
-is included. In addition to model specific measurements, `RNAmodR.ML` includes
-the functionality from the `ROCR` package inherited from the `RNAmodR` package.
-With this the performance of a model can evaluted over the training set or any 
-coordinates.
+is included. In addition to these model specific measurements, `RNAmodR.ML`
+includes the functionality from the `ROCR` package inherited from the `RNAmodR`
+package. With this the performance of a model can evaluted over the training set
+or any coordinates.
 
 ```{r plot1, fig.cap="Performance of the maching learning model to distinguish unmodified from modified nucleotides.", fig.asp=1.5}
 plotROC(me, dmod)
@@ -302,14 +306,14 @@ mod
 
 # Refining a model
 
-Some of the modification found look reasonable. However, a some of the positions
+Some of the modification found look reasonable. However, some of the positions
 seem to be noise.
 
 ```{r}
 options(ucscChromosomeNames=FALSE)
 ```
 ```{r plot2, fig.cap="Visualization of sequence data"}
-visualizeDataByCoord(sequenceData(me),mod[["3"]][1])
+visualizeDataByCoord(sequenceData(me),mod[["4"]][1])
 ```
 
 Several options exist to improve the model: Either the threshold applied to the
@@ -319,7 +323,7 @@ addition, the training data might be improved in general by higher sequencing
 depth.
 
 ```{r}
-nonValidMod <- mod[c("1","3","4")]
+nonValidMod <- mod[c("1","4")]
 nonValidMod[["18"]] <- nonValidMod[["18"]][2]
 nonValidMod[["26"]] <- nonValidMod[["26"]][2]
 nonValidMod <- unlist(nonValidMod)
@@ -328,8 +332,8 @@ coord <- unique(c(dmod,nondmod,nonValidMod))
 coord <- coord[order(as.integer(coord$Parent))]
 ```
 
-As an example, a new model is trained specifically on the falsly identified
-positions from the previous model.
+As an example, a new model is trained including the wrongly identified
+positions from the previous model as unmodified positions.
 
 ```{r}
 trainingData <- trainingData(me,coord)
@@ -358,9 +362,9 @@ the performance looks a bit better...
 plotROC(me2, dmod, score="score")
 ```
 
-... and leads to a better result for detecting D modifications. Some positions 
-are not detected anymore, which suggest that other factors can be improved upon
-as outlined above.
+... and leads to a better result for detecting D modifications. Some positions
+are not detected anymore, which suggest that this model is still not an optimal
+solution and other factors could and should be improved upon as suggested above.
 
 ```{r}
 setMethod(
@@ -375,37 +379,40 @@ me2 <- modify(me2, force = TRUE)
 modifications(me2)
 ```
 
-In addition to training a single, one can train several models and
-combine them to a `ModifierSet`.
+In addition to training a single model, several models can be trained and
+combined to a `ModifierSet`.
 
 ```{r}
 mse <- ModSetMLExample(list(one = me, two = me2))
 ```
 
-An overall performance over several models can be analyzed as well.
+An overall performance over several models can be analyzed or the individual
+performance compaired.
 
 ```{r plot4, fig.cap="Performance average across models."}
 plotROC(mse, dmod, score= "score",
         plot.args = list(avg = "threshold", spread.estimate = "stderror"))
 ```
 
-If several models are trained and provide useful information, these can be
+If several models are trained and each provides useful information, these can be
 package into a single `ModifierMLModel` class to combine the output of several
 models. The functions outlined above need to be modified to provide one or more
 scores for detecting a modification.
 
 # Packaging
 
-If the created models can be saved to file, they can also be included in a 
-package. This would allow others to use models and potentially be improved upon
-with increasing version numbers.
+If the created models can be saved to file, they can also be included in a
+package. This would allow others to use the models and the models can
+potentially be improved upon with increasing version numbers.
+
+<a name="Summary"></a>
 
 # Summary
 
 `RNAmodR.ML` provides the interface for machine learning models to be used
 with `RNAmodR` to detect modified nucleotides in high throughput sequencing 
 data. For your own work defining a working model might take some time. We hope
-that by using `RNAmodR.ML` the steps sourround this crucial step might become 
+that by using `RNAmodR.ML` the steps surrounding this crucial step might become 
 a bit easier.
 
 However, if some steps or design choices made for `RNAmodR.ML` do not suit your

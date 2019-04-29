@@ -33,6 +33,8 @@ NULL
 #' @param y a \code{ModifierML} object
 #'
 #' @seealso \code{\link[=ModifierMLModel]{ModifierMLModel}}
+#'
+#' @return a \code{ModifierMLkeras} object
 NULL
 
 #' @rdname ModifierMLkeras-class
@@ -49,7 +51,6 @@ setClass("ModifierMLkeras",
   is(model,"keras.engine.training.Model")
 }
 
-#' @importFrom keras model_to_yaml
 setMethod("initialize",
           signature = "ModifierMLkeras",
           function(.Object, ...){
@@ -59,13 +60,13 @@ setMethod("initialize",
                 stop("File for existing model was not found at ",
                      .Object@modelFile, call. = FALSE)
               }
-              model <- .load_keras_model(.Object@modelFile)
-            } else if(!.is_keras_model(model)){
+              .Object@model <- .load_keras_model(.Object@modelFile)
+            }
+            if(!.is_keras_model(.Object@model)){
               stop("Something went wrong. 'model' should be predefined by the ",
                    "actual ModifierMLkeras class through the `modelFile` slot ",
                    "or given as a Keras model during object creation.")
             }
-            .Object@model <- model
             .Object
           }
 )

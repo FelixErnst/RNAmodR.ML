@@ -14,6 +14,9 @@
 
 \item{y}{a \code{ModifierML} object}
 }
+\value{
+a \code{ModifierMLkeras} object
+}
 \description{
 The \code{ModifierMLkeras} class extends the virtual class
 \code{ModifierMLModel} and unifies the access to \code{Keras} machine
