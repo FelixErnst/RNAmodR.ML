@@ -313,7 +313,7 @@ seem to be noise.
 options(ucscChromosomeNames=FALSE)
 ```
 ```{r plot2, fig.cap="Visualization of sequence data"}
-visualizeDataByCoord(sequenceData(me),mod[["4"]][1])
+plotDataByCoord(sequenceData(me),mod[["4"]][1])
 ```
 
 Several options exist to improve the model: Either the threshold applied to the
