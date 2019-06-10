@@ -69,7 +69,6 @@ NULL
   if(is.null(args[["merge"]])){
     args[["merge"]] <- FALSE
   }
-  args[["type"]] <- NA
   do.call(subsetByCoord, c(list(labeledData, coord),args))
 }
 
