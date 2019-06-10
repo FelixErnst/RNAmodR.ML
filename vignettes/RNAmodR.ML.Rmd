@@ -9,7 +9,7 @@ output:
     toc_float: true
     df_print: paged
 vignette: >
-  %\VignetteIndexEntry{RNAmodR}
+  %\VignetteIndexEntry{RNAmodR.ML}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
