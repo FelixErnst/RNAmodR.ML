@@ -1,6 +1,6 @@
 Package: RNAmodR.ML
 Type: Package
-Title: RNAmodR.ML: detecting patterns of post-transcriptional modifications using machine learning
+Title: Detecting patterns of post-transcriptional modifications using machine learning
 Version: 0.99.0
 Date: 2019-06-10
 Authors@R: c(person("Felix G.M.",
@@ -12,9 +12,10 @@ Authors@R: c(person("Felix G.M.",
                     "Lafontaine", 
                     email = "denis.lafontaine@ulb.ac.be", 
                     role = c("ctb")))
-Description: To extend the functionality of the `RNAmodR` package and classical
-    detection strategies towards detection through machine learning models, 
-    RNAmodR.ML provides classes and an example workflow.
+Description: RNAmodR.ML extend the functionality of the RNAmodR package and 
+    classical detection strategies towards detection through machine learning
+    models. RNAmodR.ML provides classes, functions and an example workflow to 
+    establish a detection stratedy, which can be packaged.
 biocViews: 
     Software, Infrastructure, WorkflowStep, Visualization, Sequencing
 License: Artistic-2.0
