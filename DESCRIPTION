@@ -1,8 +1,8 @@
 Package: RNAmodR.ML
 Type: Package
 Title: Detecting patterns of post-transcriptional modifications using machine learning
-Version: 0.99.2
-Date: 2019-06-10
+Version: 0.99.3
+Date: 2019-06-11
 Authors@R: c(person("Felix G.M.",
                     "Ernst", 
                     email = "felix.gm.ernst@outlook.com", 
