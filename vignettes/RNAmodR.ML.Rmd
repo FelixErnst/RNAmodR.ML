@@ -4,10 +4,11 @@ author: "Felix G.M. Ernst and Denis L.J. Lafontaine"
 date: "`r Sys.Date()`"
 package: RNAmodR
 output:
-  BiocStyle::html_document:
-    toc: true
-    toc_float: true
-    df_print: paged
+  BiocStyle::pdf_document
+  # BiocStyle::html_document:
+  #   toc: true
+  #   toc_float: true
+  #   df_print: paged
 vignette: >
   %\VignetteIndexEntry{RNAmodR.ML}
   %\VignetteEngine{knitr::rmarkdown}
@@ -363,7 +364,7 @@ me2 <- aggregate(me2, force = TRUE)
 After updating the `ModifierMLexample` class and aggregating the data again
 the performance looks a bit better...
 
-```{r plot3, fig.cap=""}
+```{r plot3, fig.cap="Performance aggregation of multiple samples and strategies."}
 plotROC(me2, dmod, score="score")
 ```
 
