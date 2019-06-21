@@ -16,7 +16,7 @@ detected by accessing small number of parameters. For these cases machine
 learning models can be trained on data from positions known to be modified
 in order to detect additional modified positions.
 
-``RNAmodR.ML` implements additional classes from the base package `RNAmodR`
+`RNAmodR.ML` implements additional classes from the base package `RNAmodR`
 to train and use machine learning models. The package contains an example 
 workflow for random forest models with the `ranger` package 
 ([Wright & Ziegler 2017](#Literature)). In addition classes for using
@@ -26,7 +26,10 @@ models can also be easily implemented.
 
 # Installation
 
-The current version of the RNAmodR.Data package is available from GitHub.
+The current version of the RNAmodR.Data package is available from GitHub and the
+Bioconductor devel version.
+
+## Github
 
 ```
 remotes::install_github("FelixErnst/RNAmodR.Data")
@@ -36,7 +39,17 @@ remotes::install_github("FelixErnst/RNAmodR.ML")
 library(RNAmodR.ML)
 ```
 
-A submission to Bioconductor is planned.
+## Bioconductor
+
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+BiocManager::install("RNAmodR.ML")
+library(RNAmodR.ML)
+```
 
 # Introduction
 
