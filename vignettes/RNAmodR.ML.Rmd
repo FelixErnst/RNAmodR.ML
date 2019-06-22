@@ -437,7 +437,7 @@ machine learning models.
  aggregate the sequence data as is, just do a custom `cbind` on the data from 
  the `SequenceData` objects (`cbind` works on `SequenceData` objects, if they
  are of the same type. Convert each of them to a `CompressedSplitDataFrameList`
- using `relist(as(unlist(x),"DataFrame"),x)`).
+ using `as(x,"CompressedSplitDataFrameList")`).
  3. in a deep learning context, if a coordinate is selected without a flanking 
  value, e.g. when using `trainingData`, a 2D tensor is returned (sample, 
  values). This can be converted into a 3D tensor by providing a flanking value.
