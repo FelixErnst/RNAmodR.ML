@@ -14,6 +14,8 @@
 \alias{aggregate,ModifierML-method}
 \alias{useMLModel,ModifierML-method}
 \alias{modify,ModifierML-method}
+\alias{RNAModifierML-class}
+\alias{DNAModifierML-class}
 \title{The ModifierML class}
 \usage{
 setMLModel(x) <- value
@@ -80,7 +82,7 @@ by calling a function of the same name.}
 \examples{
 # an example implementation of a ModifierML object
 setClass("ModMLExample",
-         contains = c("ModifierML"),
+         contains = c("RNAModifierML"),
          prototype = list(mod = c("D"),
                           score = "score",
                           dataType = c("PileupSequenceData",

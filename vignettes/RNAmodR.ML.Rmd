@@ -4,11 +4,10 @@ author: "Felix G.M. Ernst and Denis L.J. Lafontaine"
 date: "`r Sys.Date()`"
 package: RNAmodR
 output:
-  BiocStyle::pdf_document
-  # BiocStyle::html_document:
-  #   toc: true
-  #   toc_float: true
-  #   df_print: paged
+  BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
 vignette: >
   %\VignetteIndexEntry{RNAmodR.ML}
   %\VignetteEngine{knitr::rmarkdown}
@@ -80,11 +79,12 @@ To illustrate how to develop a machine learning model with help from the
 
 As an example for this vignette, we will try to detect D positions in 
 AlkAnilineSeq data. First define a specific `ModifierML` class loading pileup 
-and coverage data.
+and coverage data. In this example, the RNA specific `RNAModifierML` class is 
+used.
 
 ```{r}
 setClass("ModMLExample",
-         contains = c("ModifierML"),
+         contains = c("RNAModifierML"),
          prototype = list(mod = c("D"),
                           score = "score",
                           dataType = c("PileupSequenceData",
@@ -263,7 +263,7 @@ includes the functionality from the `ROCR` package inherited from the `RNAmodR`
 package. With this the performance of a model can evaluted over the training set
 or any coordinates.
 
-```{r plot1, fig.cap="Performance of the maching learning model to distinguish unmodified from modified nucleotides.", fig.asp=1.5}
+```{r plot1, fig.cap="Performance of the maching learning model to distinguish unmodified from modified nucleotides.", fig.asp=1.5, dev="png"}
 plotROC(me, dmod)
 ```
 
@@ -293,7 +293,7 @@ to the  `ModifierMLexample` class. The `ModMLExample` is now complete.
 ```{r}
 rm(me)
 setClass("ModMLExample",
-         contains = c("ModifierML"),
+         contains = c("RNAModifierML"),
          prototype = list(mod = c("D"),
                           score = "score",
                           dataType = c("PileupSequenceData",
@@ -318,7 +318,7 @@ seem to be noise.
 ```{r}
 options(ucscChromosomeNames=FALSE)
 ```
-```{r plot2, fig.cap="Visualization of sequence data"}
+```{r plot2, fig.cap="Visualization of sequence data", dev="png"}
 plotDataByCoord(sequenceData(me),mod[["4"]][1])
 ```
 
@@ -395,7 +395,7 @@ mse <- ModSetMLExample(list(one = me, two = me2))
 An overall performance over several models can be analyzed or the individual
 performance compaired.
 
-```{r plot4, fig.cap="Performance average across models."}
+```{r plot4, fig.cap="Performance average across models", dev="png"}
 plotROC(mse, dmod, score= "score",
         plot.args = list(avg = "threshold", spread.estimate = "stderror"))
 ```

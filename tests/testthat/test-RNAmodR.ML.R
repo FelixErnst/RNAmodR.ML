@@ -4,7 +4,7 @@ test_that("ModifierML:",{
   library(RNAmodR.Data)
   library(rtracklayer)
   setClass("ModMLExample",
-           contains = c("ModifierML"),
+           contains = c("RNAModifierML"),
            prototype = list(mod = c("D"),
                             score = "score",
                             dataType = c("PileupSequenceData",

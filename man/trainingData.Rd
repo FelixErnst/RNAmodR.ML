@@ -35,7 +35,7 @@ to positions as defined by \code{coord}. Positions with an entry in the
 \examples{
 data("dmod",package = "RNAmodR.ML")
 setClass("ModMLExample",
-         contains = c("ModifierML"),
+         contains = c("RNAModifierML"),
          prototype = list(mod = c("D"),
                           score = "score",
                           dataType = c("PileupSequenceData",

@@ -46,7 +46,7 @@ NULL
 #' @examples
 #' # an example implementation of a ModifierML object
 #' setClass("ModMLExample",
-#'          contains = c("ModifierML"),
+#'          contains = c("RNAModifierML"),
 #'          prototype = list(mod = c("D"),
 #'                           score = "score",
 #'                           dataType = c("PileupSequenceData",
@@ -226,3 +226,17 @@ setMethod(f = "modify",
               x
             }
 )
+
+# RNAModifierML and DNAModifierML ----------------------------------------------
+
+#' @rdname ModifierML-class
+#' @export
+setClass("RNAModifierML",
+         contains = c("VIRTUAL","ModifierML"),
+         prototype = list(seqtype = seqtype(RNAString())))
+
+#' @rdname ModifierML-class
+#' @export
+setClass("DNAModifierML",
+         contains = c("VIRTUAL","ModifierML"),
+         prototype = list(seqtype = seqtype(DNAString())))
