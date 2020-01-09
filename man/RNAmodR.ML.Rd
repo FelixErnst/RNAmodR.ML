@@ -3,7 +3,6 @@
 \docType{package}
 \name{RNAmodR.ML}
 \alias{RNAmodR.ML}
-\alias{RNAmodR.ML-package}
 \title{RNAmodR.ML}
 \description{
 To extend the functionality of the \code{RNAmodR} package and classical

@@ -9,11 +9,11 @@
 \title{Example data in the RNAmodR.ML package}
 \format{a \code{GRanges} object containg D positions}
 \usage{
-dmod
+data(dmod)
 
-mod7
+data(mod7)
 
-me
+data(me)
 }
 \description{
 This contains an example ModifierSet object

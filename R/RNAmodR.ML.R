@@ -26,15 +26,16 @@ NULL
 #' @description
 #' This contains an example ModifierSet object
 #' @docType data
-#' @usage dmod
+#' 
 #' @format a \code{GRanges} object containg D positions
 #' @keywords datasets
+#' @usage data(dmod)
 "dmod"
 #' @name RNAmodR.ML-datasets
 #' @format a \code{GRanges} object containg m7G positions
-#' @usage mod7
+#' @usage data(mod7)
 "mod7"
 #' @name RNAmodR.ML-datasets
 #' @format a \code{ModMLExample} object for examples
-#' @usage me
+#' @usage data(me)
 "me"
