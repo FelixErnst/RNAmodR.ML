@@ -233,10 +233,10 @@ setMethod(f = "modify",
 #' @export
 setClass("RNAModifierML",
          contains = c("VIRTUAL","ModifierML"),
-         prototype = list(seqtype = seqtype(RNAString())))
+         prototype = list(seqtype = seqtype(Biostrings::RNAString())))
 
 #' @rdname ModifierML-class
 #' @export
 setClass("DNAModifierML",
          contains = c("VIRTUAL","ModifierML"),
-         prototype = list(seqtype = seqtype(DNAString())))
+         prototype = list(seqtype = seqtype(Biostrings::DNAString())))

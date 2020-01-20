@@ -1,4 +1,4 @@
-# RNAmodR.ML
+# RNAmodR.ML [![Build Status](https://travis-ci.com/FelixErnst/RNAmodR.ML.svg?branch=master)](https://travis-ci.com/FelixErnst/RNAmodR.ML) [![codecov](https://codecov.io/gh/FelixErnst/RNAmodR.ML/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/RNAmodR.ML)
 
 Post-transcriptional modifications can be found abundantly in rRNA and tRNA and
 can be detected classically via several strategies. However, difficulties arise
