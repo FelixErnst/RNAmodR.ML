@@ -26,27 +26,12 @@ models can also be easily implemented.
 
 # Installation
 
-The current version of the RNAmodR.Data package is available from GitHub and the
-Bioconductor devel version.
-
-## Github
-
-```
-remotes::install_github("FelixErnst/RNAmodR.Data")
-remotes::install_github("FelixErnst/RNAmodR")
-remotes::install_github("FelixErnst/RNAmodR.ML")
-#
-library(RNAmodR.ML)
-```
-
-## Bioconductor
+The current version of the RNAmodR.Data package is available from Bioconductor.
 
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-# The following initializes usage of Bioc devel
-BiocManager::install(version='devel')
 BiocManager::install("RNAmodR.ML")
 library(RNAmodR.ML)
 ```

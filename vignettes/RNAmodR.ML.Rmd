@@ -1,8 +1,8 @@
 ---
-title: "RNAmodR: detecting patterns of post-transcriptional modifications using machine learning"
+title: "RNAmodR.ML: detecting patterns of post-transcriptional modifications using machine learning"
 author: "Felix G.M. Ernst and Denis L.J. Lafontaine"
 date: "`r Sys.Date()`"
-package: RNAmodR
+package: RNAmodR.ML
 output:
   BiocStyle::html_document:
     toc: true

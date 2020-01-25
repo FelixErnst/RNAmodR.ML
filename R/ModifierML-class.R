@@ -155,6 +155,11 @@ setMethod("getMLModel",
             if(assertive::is_empty(x@mlModel)){
               return(NULL)
             }
+            class <- class(x@mlModel)
+            tryRes <- try(getClass(class))
+            if(is(tryRes,"try-error")){
+              stop("Class '",class,"' not defined.", call. = FALSE)
+            }
             if(!is(x@mlModel,"ModifierMLModel")){
               mlModel <- .load_ModifierMLModel(x@mlModel)
             } else {
@@ -221,7 +226,9 @@ setMethod(f = "modify",
               if(hasMLModel(x)){
                 x <- callNextMethod()
               } else {
-                warning("ML model not set. Skipped search for modifications.")
+                warning("ML model not set. Skipped search for ",
+                        "modifications ...",
+                        call. = FALSE)
               }
               x
             }
