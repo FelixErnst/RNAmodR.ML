@@ -39,3 +39,7 @@ NULL
 #' @format a \code{ModMLExample} object for examples
 #' @usage data(me)
 "me"
+#' @name RNAmodR.ML-datasets
+#' @format a \code{ranger} object for examples
+#' @usage data(model)
+"model"
