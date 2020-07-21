@@ -107,7 +107,7 @@
 <pre><code>## BiocCheck' you'll need to copy it yourself to a directory on your PATH,</code></pre>
 <pre><code>## making sure it is executable. See the BiocCheck vignette for more</code></pre>
 <pre><code>## information.</code></pre>
-<pre><code>## using temporary cache /tmp/RtmpPAY0Wz/BiocFileCache</code></pre>
+<pre><code>## using temporary cache /tmp/RtmpUeAGzy/BiocFileCache</code></pre>
 <pre><code>## snapshotDate(): 2020-07-10</code></pre>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rtracklayer</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">GenomicRanges</span>)
@@ -236,7 +236,7 @@
 ##     p &lt;- predict(x@model, data.frame(unlisted_data))
 ##     relist(p$predictions, data)
 ## }
-## &lt;bytecode: 0x557630729af0&gt;
+## &lt;bytecode: 0x5647dbe16f70&gt;
 ## &lt;environment: namespace:RNAmodR.ML&gt;
 ## 
 ## Signatures:
@@ -309,7 +309,7 @@ Performance of the maching learning model to distinguish unmodified from modifie
 <div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">mod</span> <span class="kw">&lt;-</span> <span class="fu">modifications</span>(<span class="no">me</span>)
 <span class="no">mod</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">mod</span>, <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">mod</span>$<span class="no">Parent</span>,<span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mod</span>$<span class="no">Parent</span>)))
 <span class="no">mod</span></pre></body></html></div>
-<pre><code>## GRangesList object of length 36:
+<pre><code>## GRangesList object of length 35:
 ## $`1`
 ## GRanges object with 2 ranges and 5 metadata columns:
 ##             seqnames    ranges strand |         mod      source        type
@@ -318,8 +318,8 @@ Performance of the maching learning model to distinguish unmodified from modifie
 ##   [2] Q0020_15S_RRNA       323      + |           D  RNAmodR.ML      RNAMOD
 ##           score      Parent
 ##       &lt;numeric&gt; &lt;character&gt;
-##   [1]  0.913900           1
-##   [2]  0.823833           1
+##   [1]  0.932482           1
+##   [2]  0.836582           1
 ##   -------
 ##   seqinfo: 60 sequences from an unspecified genome; no seqlengths
 ## 
@@ -327,8 +327,8 @@ Performance of the maching learning model to distinguish unmodified from modifie
 ## GRanges object with 2 ranges and 5 metadata columns:
 ##       seqnames    ranges strand |         mod      source        type     score
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;character&gt; &lt;character&gt; &lt;numeric&gt;
-##   [1]  RDN18-1       229      + |           D  RNAmodR.ML      RNAMOD  0.814033
-##   [2]  RDN18-1      1669      + |           D  RNAmodR.ML      RNAMOD  0.821967
+##   [1]  RDN18-1       229      + |           D  RNAmodR.ML      RNAMOD    0.8251
+##   [2]  RDN18-1      1669      + |           D  RNAmodR.ML      RNAMOD    0.8188
 ##            Parent
 ##       &lt;character&gt;
 ##   [1]           3
@@ -340,10 +340,10 @@ Performance of the maching learning model to distinguish unmodified from modifie
 ## GRanges object with 4 ranges and 5 metadata columns:
 ##       seqnames    ranges strand |         mod      source        type     score
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;character&gt; &lt;character&gt; &lt;numeric&gt;
-##   [1]  RDN25-1         2      + |           D  RNAmodR.ML      RNAMOD  0.818967
-##   [2]  RDN25-1       748      + |           D  RNAmodR.ML      RNAMOD  0.822033
-##   [3]  RDN25-1      1720      + |           D  RNAmodR.ML      RNAMOD  0.821433
-##   [4]  RDN25-1      2571      + |           D  RNAmodR.ML      RNAMOD  0.808067
+##   [1]  RDN25-1         2      + |           D  RNAmodR.ML      RNAMOD  0.867700
+##   [2]  RDN25-1       748      + |           D  RNAmodR.ML      RNAMOD  0.828033
+##   [3]  RDN25-1      1720      + |           D  RNAmodR.ML      RNAMOD  0.835500
+##   [4]  RDN25-1      2571      + |           D  RNAmodR.ML      RNAMOD  0.801367
 ##            Parent
 ##       &lt;character&gt;
 ##   [1]           4
@@ -354,7 +354,7 @@ Performance of the maching learning model to distinguish unmodified from modifie
 ##   seqinfo: 60 sequences from an unspecified genome; no seqlengths
 ## 
 ## ...
-## &lt;33 more elements&gt;</code></pre>
+## &lt;32 more elements&gt;</code></pre>
 </div>
 <div id="refining-a-model" class="section level1">
 <h1 class="hasAnchor">
@@ -408,7 +408,7 @@ Performance aggregation of multiple samples and strategies.
 )
 <span class="no">me2</span> <span class="kw">&lt;-</span> <span class="fu">modify</span>(<span class="no">me2</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="fu">modifications</span>(<span class="no">me2</span>)</pre></body></html></div>
-<pre><code>## GRanges object with 46 ranges and 5 metadata columns:
+<pre><code>## GRanges object with 44 ranges and 5 metadata columns:
 ##         seqnames    ranges strand |         mod      source        type
 ##            &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;character&gt; &lt;character&gt;
 ##    [1]  tA-AGC-D        47      + |           D  RNAmodR.ML      RNAMOD
@@ -417,24 +417,24 @@ Performance aggregation of multiple samples and strategies.
 ##    [4]  tC-GCA-B        46      + |           D  RNAmodR.ML      RNAMOD
 ##    [5]  tE-CTC-D        20      + |           D  RNAmodR.ML      RNAMOD
 ##    ...       ...       ...    ... .         ...         ...         ...
-##   [42]  tV-CAC-D        47      + |           D  RNAmodR.ML      RNAMOD
-##   [43] tW-CCA-G1        16      + |           D  RNAmodR.ML      RNAMOD
-##   [44] tW-CCA-G1        46      + |           D  RNAmodR.ML      RNAMOD
-##   [45]  tY-GTA-D        21      + |           D  RNAmodR.ML      RNAMOD
-##   [46]  tY-GTA-D        22      + |           D  RNAmodR.ML      RNAMOD
+##   [40]  tV-AAC-O        48      + |           D  RNAmodR.ML      RNAMOD
+##   [41]  tV-CAC-D        47      + |           D  RNAmodR.ML      RNAMOD
+##   [42] tW-CCA-G1        16      + |           D  RNAmodR.ML      RNAMOD
+##   [43] tW-CCA-G1        46      + |           D  RNAmodR.ML      RNAMOD
+##   [44]  tY-GTA-D        21      + |           D  RNAmodR.ML      RNAMOD
 ##            score      Parent
 ##        &lt;numeric&gt; &lt;character&gt;
-##    [1]  0.972050           6
-##    [2]  0.961150           7
-##    [3]  0.920760           8
-##    [4]  0.935842           8
-##    [5]  0.835858          11
+##    [1]  0.966675           6
+##    [2]  0.950492           7
+##    [3]  0.915256           8
+##    [4]  0.937725           8
+##    [5]  0.827975          11
 ##    ...       ...         ...
-##   [42]  0.927583          57
-##   [43]  0.805025          59
-##   [44]  0.826267          59
-##   [45]  0.916100          60
-##   [46]  0.800350          60
+##   [40]  0.929950          56
+##   [41]  0.926875          57
+##   [42]  0.811967          59
+##   [43]  0.831342          59
+##   [44]  0.913658          60
 ##   -------
 ##   seqinfo: 60 sequences from an unspecified genome; no seqlengths</code></pre>
 <p>In addition to training a single model, several models can be trained and combined to a <code>ModifierSet</code>.</p>
