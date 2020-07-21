@@ -55,7 +55,7 @@ setMethod("initialize",
           signature = "ModifierMLkeras",
           function(.Object, ...){
             .Object <- callNextMethod()
-            if(is.null(.Object@model) && !assertive::is_empty(.Object@modelFile)){
+            if(is.null(.Object@model) && !.is_empty(.Object@modelFile)){
               if(!file.exists(.Object@modelFile)){
                 stop("File for existing model was not found at ",
                      .Object@modelFile, call. = FALSE)

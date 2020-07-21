@@ -82,7 +82,7 @@ setMethod("initialize",
 )
 
 .load_ModifierMLModel <- function(modelName, ...){
-  if(assertive::is_empty(modelName)){
+  if(.is_empty(modelName)){
     return(modelName)
   }
   FUN <- match.fun(modelName)
@@ -98,7 +98,7 @@ setMethod(
     cat("A", class(object), "object containing",dataType(object),
         "with",length(object@data),"elements.\n")
     model <- class(object@mlModel)
-    if(assertive::is_empty(model)){
+    if(.is_empty(model)){
       cat("| ML model: not set\n")
     } else {
       cat("| ML model: ",model,"\n")
@@ -152,7 +152,7 @@ setReplaceMethod("setMLModel",
 setMethod("getMLModel",
           signature = c(x = "ModifierML"),
           function(x){
-            if(assertive::is_empty(x@mlModel)){
+            if(.is_empty(x@mlModel)){
               return(NULL)
             }
             class <- class(x@mlModel)
@@ -190,7 +190,9 @@ setMethod(f = "aggregate",
               if(missing(force)){
                 force <- FALSE
               }
-              assertive::assert_is_a_bool(force)
+              if(!.is_a_bool(force)){
+                stop("'force' must be TRUE or FALSE.", call. = FALSE)
+              }
               if(!hasAggregateData(x) || force){
                 x@aggregate <- aggregateData(x)
                 if(hasMLModel(x)){
