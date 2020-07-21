@@ -8,7 +8,15 @@
 \alias{me}
 \alias{model}
 \title{Example data in the RNAmodR.ML package}
-\format{a \code{GRanges} object containg D positions}
+\format{
+a \code{GRanges} object containg D positions
+
+a \code{GRanges} object containg m7G positions
+
+a \code{ModMLExample} object for examples
+
+a \code{ranger} object for examples
+}
 \usage{
 data(dmod)
 
