@@ -1,4 +1,11 @@
-# RNAmodR.ML [![Build Status](https://travis-ci.com/FelixErnst/RNAmodR.ML.svg?branch=master)](https://travis-ci.com/FelixErnst/RNAmodR.ML) [![codecov](https://codecov.io/gh/FelixErnst/RNAmodR.ML/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/RNAmodR.ML)
+# RNAmodR.ML 
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/FelixErnst/RNAmodR.ML/workflows/R-CMD-check/badge.svg)](https://github.com/FelixErnst/RNAmodR/actions/)
+[![BioC Build](https://bioconductor.org/shields/build/devel/bioc/RNAmodR.ML.svg)](http://bioconductor.org/checkResults/devel/bioc-LATEST/RNAmodR.ML/)
+[![codecov](https://codecov.io/gh/FelixErnst/RNAmodR.ML/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/RNAmodR.ML)
+[![BioC Years](https://bioconductor.org/shields/years-in-bioc/RNAmodR.ML.svg)](https://doi.org/doi:10.18129/B9.bioc.RNAmodR.ML)
+<!-- badges: end -->
 
 Post-transcriptional modifications can be found abundantly in rRNA and tRNA and
 can be detected classically via several strategies. However, difficulties arise
